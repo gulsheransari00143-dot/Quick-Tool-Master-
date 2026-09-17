@@ -1,0 +1,49 @@
+{
+  "name": "quick-tool-master",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "node node_modules/next/dist/bin/next dev",
+    "build": "node node_modules/next/dist/bin/next build --webpack",
+    "start": "node node_modules/next/dist/bin/next start",
+    "lint": "node node_modules/eslint/bin/eslint.js .",
+    "test": "node node_modules/vitest/vitest.mjs run",
+    "test:watch": "node node_modules/vitest/vitest.mjs",
+    "typecheck": "node node_modules/typescript/bin/tsc --noEmit",
+    "dev:vinext": "node node_modules/vinext/dist/cli.js dev --port 3001",
+    "build:vinext": "node node_modules/vinext/dist/cli.js build",
+    "start:vinext": "node node_modules/wrangler/bin/wrangler.js dev --config dist/server/wrangler.json",
+    "deploy:vinext": "node node_modules/@vinext/cloudflare/dist/cli.js deploy --config dist/server/wrangler.json"
+  },
+  "dependencies": {
+    "@vinext/cloudflare": "^1.0.0-beta.8",
+    "next": "16.3.5",
+    "pdfjs-dist": "^6.3.289",
+    "qrcode": "^1.5.4",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "react-server-dom-webpack": "^19.3.0"
+  },
+  "devDependencies": {
+    "@cloudflare/vite-plugin": "^1.55.0",
+    "@tailwindcss/postcss": "latest",
+    "@testing-library/jest-dom": "latest",
+    "@testing-library/react": "latest",
+    "@types/node": "latest",
+    "@types/qrcode": "^1.5.6",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "@vitejs/plugin-react": "latest",
+    "@vitejs/plugin-rsc": "^0.5.35",
+    "eslint": "latest",
+    "eslint-config-next": "latest",
+    "jsdom": "latest",
+    "tailwindcss": "latest",
+    "typescript": "latest",
+    "vinext": "^1.0.0-beta.10",
+    "vite": "^8.3.0",
+    "vitest": "latest",
+    "wrangler": "^4.134.0"
+  },
+  "type": "module"
+}
