@@ -1,4 +1,4 @@
-export const siteUrl = "https://quicktoolmaster.com";
+export const siteUrl = "https://quick-tool-master.gulsheransari00143.workers.dev";
 
 export function toolMetadata(tool: {
   name: string;
