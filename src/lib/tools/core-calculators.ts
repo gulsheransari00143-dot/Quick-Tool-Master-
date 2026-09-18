@@ -21,9 +21,18 @@ const dimensions: Record<string, string> = {
 };
 
 export function calculateUnit(value: number, from: string, to: string) {
+  if (!Number.isFinite(value)) throw new Error("Value must be a valid number");
   const source = units[from];
   const target = units[to];
   if (source === undefined || target === undefined) throw new Error("Unsupported unit");
   if (dimensions[from] !== dimensions[to]) throw new Error("Incompatible units");
   return (value * source) / target;
+}
+
+export function calculateTemperature(value: number, from: string, to: string) {
+  if (!Number.isFinite(value)) throw new Error("Value must be a valid number");
+  const supported = new Set(["C", "F", "K"]);
+  if (!supported.has(from) || !supported.has(to)) throw new Error("Unsupported temperature unit");
+  const celsius = from === "C" ? value : from === "F" ? (value - 32) * (5 / 9) : value - 273.15;
+  return to === "C" ? celsius : to === "F" ? celsius * (9 / 5) + 32 : celsius + 273.15;
 }

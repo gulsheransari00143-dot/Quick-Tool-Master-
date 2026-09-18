@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { formatJson, validateJson } from "@/lib/tools/json";
 import { decodeBase64, encodeBase64 } from "@/lib/tools/base64";
 import { calculatePercentage, percentageChange } from "@/lib/tools/calculators";
-import { calculateAge, calculateUnit } from "@/lib/tools/core-calculators";
+import { calculateAge, calculateTemperature, calculateUnit } from "@/lib/tools/core-calculators";
 
 describe("developer tools", () => {
   it("formats and validates JSON", () => {
@@ -24,10 +24,16 @@ describe("calculators", () => {
   it("calculates age and unit conversions", () => {
     expect(calculateAge("2000-01-15", "2026-01-14")).toBe(25);
     expect(calculateUnit(1, "km", "m")).toBe(1000);
+    expect(calculateTemperature(32, "F", "C")).toBeCloseTo(0);
+    expect(calculateTemperature(0, "C", "K")).toBeCloseTo(273.15);
   });
 });
 
 describe("core tool edge cases", () => {
+  it("rejects invalid numeric input", () => {
+    expect(() => calculateUnit(Number.NaN, "km", "m")).toThrow("valid number");
+  });
+
   it("rejects cross-dimension unit conversion", () => {
     expect(() => calculateUnit(1, "km", "kg")).toThrow("Incompatible units");
   });
