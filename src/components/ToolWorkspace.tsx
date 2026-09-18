@@ -5,6 +5,11 @@ import { compressImage, convertImage, resizeImage, type ImageFormat } from "@/li
 import { pdfToJpg } from "@/lib/tools/pdf-to-jpg";
 import { generateQrDataUrl } from "@/lib/tools/qr-code";
 import CoreToolWorkspace from "@/components/CoreToolWorkspace";
+import AIWorkspace from "@/components/AIWorkspace";
+import TemplateWorkspace from "@/components/TemplateWorkspace";
+import GameWorkspace from "@/components/GameWorkspace";
+import ScienceWorkspace from "@/components/ScienceWorkspace";
+import ExcelWorkspace from "@/components/ExcelWorkspace";
 type Props = { slug: string };
 const formats: { label: string; value: ImageFormat }[] = [
  { label: "JPG", value: "image/jpeg" }, { label: "PNG", value: "image/png" }, { label: "WebP", value: "image/webp" },
@@ -24,9 +29,9 @@ function ImageTool({ slug }: { slug: string }) {
  const run = async () => { if (!file) return; setBusy(true); setError(""); try { const blob = slug === "image-compressor" ? await compressImage(file, quality / 100) : slug === "image-resizer" ? await resizeImage(file, width, height, format) : await convertImage(file, format); setResult(blob); } catch (e) { setResult(undefined); setError(e instanceof Error ? e.message : "Image processing failed"); } finally { setBusy(false); } };
  return <div className="workspace"><FilePicker accept="image/*" onChange={chooseFile} />
  {file && <div className="file-pill"><span>{file.name}</span><small>{(file.size / 1024).toFixed(1)} KB</small></div>}
- {slug === "image-compressor" && <label>Quality <input type="range" min="10" max="100" value={quality} onChange={(e) => setQuality(+e.target.value)} /> <b>{quality}%</b></label>}
+ {slug === "image-compressor" && <label>Quality<input type="range" min="10" max="100" value={quality} onChange={(e) => setQuality(Number(e.target.value))} /><b>{quality}%</b></label>}
  {slug === "image-resizer" && <div className="control-grid"><label>Width<input type="number" min="1" value={width} onChange={(e) => setWidth(+e.target.value)} /></label><label>Height<input type="number" min="1" value={height} onChange={(e) => setHeight(+e.target.value)} /></label></div>}
- {slug !== "image-compressor" && <label>Output format<select value={format} onChange={(e) => setFormat(e.target.value as ImageFormat)}>{formats.map((item) => <option key={item.value} value={item.value}>{item.label}</option>)}</select></label>}
+ {slug !== "image-compressor" && <div>Output format<select value={format} onChange={(e) => setFormat(e.target.value as ImageFormat)}>{formats.map((item) => <option key={item.value} value={item.value}>{item.label}</option>)}</select></div>}
  <button className="primary-button" disabled={!file || busy} onClick={run}>{busy ? "Processing…" : slug === "image-compressor" ? "Compress image" : slug === "image-resizer" ? "Resize image" : "Convert image"}</button>
  {error && <p className="error-text" role="alert">{error}</p>}
  {result && <div className="result-card"><span>Done — {(result.size / 1024).toFixed(1)} KB</span><button onClick={() => saveBlob(result, `quicktoolmaster-${slug}.` + (format === "image/jpeg" || slug === "image-compressor" ? "jpg" : format === "image/webp" ? "webp" : "png"))}>Download</button></div>}
@@ -53,5 +58,10 @@ export default function ToolWorkspace({ slug }: Props) {
  if (["image-compressor", "image-resizer", "image-converter"].includes(slug)) return <ImageTool slug={slug} />;
  if (slug === "pdf-to-jpg") return <PdfTool />;
  if (slug === "qr-code-generator") return <QrTool />;
+ if (slug === "science-qa") return <ScienceWorkspace />;
+ if (slug === "excel-csv-viewer") return <ExcelWorkspace />;
+ if (slug.startsWith("ai-")) return <AIWorkspace slug={slug} />;
+ if (["resume-template","invoice-template","meeting-notes-template"].includes(slug)) return <TemplateWorkspace slug={slug} />;
+ if (["tic-tac-toe","number-guess","reaction-timer"].includes(slug)) return <GameWorkspace slug={slug} />;
  return null;
 }

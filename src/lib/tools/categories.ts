@@ -6,4 +6,6 @@ export const categories = [
   { slug: "ai-tools", name: "AI Tools", description: "Discover practical AI resources and prompt utilities." },
   { slug: "templates", name: "Templates", description: "Useful templates for work, study, planning, and productivity." },
   { slug: "games", name: "Games", description: "Quick puzzles, quizzes, and mini games for a short break." },
+  { slug: "science", name: "Science", description: "Science questions and explanations across physics, chemistry, biology, space, and more." },
+  { slug: "excel-tools", name: "Excel Tools", description: "View, clean, convert, and work with spreadsheet data." },
 ] as const;

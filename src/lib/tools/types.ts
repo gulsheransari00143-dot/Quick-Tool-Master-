@@ -5,7 +5,9 @@ export type ToolCategory =
   | "generators"
   | "ai-tools"
   | "templates"
-  | "games";
+  | "games"
+  | "science"
+  | "excel-tools";
 
 export type ProcessingMode = "browser" | "server";
 
