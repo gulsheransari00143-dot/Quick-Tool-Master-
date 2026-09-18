@@ -38,3 +38,32 @@ describe("core tool edge cases", () => {
     expect(() => calculateUnit(1, "km", "kg")).toThrow("Incompatible units");
   });
 });
+
+describe("developer edge cases", () => {
+  it("handles empty and malformed JSON explicitly", () => {
+    expect(validateJson("   ")).toEqual({ valid: false, error: "JSON input cannot be empty" });
+    expect(() => formatJson("")).toThrow("JSON input cannot be empty");
+    expect(() => formatJson('{"a":1}', 11)).toThrow("Indentation");
+  });
+
+  it("rejects malformed Base64 and empty decode input", () => {
+    expect(() => decodeBase64("")).toThrow("cannot be empty");
+    expect(() => decodeBase64("not-base64!")).toThrow("Invalid Base64");
+    expect(() => decodeBase64("SGVsbG8")).toThrow("Invalid Base64");
+  });
+});
+
+describe("calculator validation", () => {
+  it("rejects non-finite and invalid discount values", async () => {
+    const { calculateDiscount } = await import("@/lib/tools/calculators");
+    expect(() => calculatePercentage(Number.POSITIVE_INFINITY, 10)).toThrow("valid number");
+    expect(() => calculateDiscount(-1, 10)).toThrow("negative");
+    expect(() => calculateDiscount(100, 101)).toThrow("between 0 and 100");
+  });
+
+  it("handles same units and strict calendar dates", () => {
+    expect(calculateUnit(42, "km", "km")).toBe(42);
+    expect(() => calculateAge("2026-02-30", "2026-03-01")).toThrow("valid date");
+    expect(calculateAge("2000-02-29", "2026-02-28")).toBe(25);
+  });
+});

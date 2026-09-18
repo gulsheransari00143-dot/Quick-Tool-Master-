@@ -21,25 +21,28 @@ function DeveloperTool({ slug }: { slug: string }) {
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [valid, setValid] = useState<boolean>();
+  const [error, setError] = useState("");
   const [mode, setMode] = useState<"encode" | "decode">("encode");
   const run = () => {
+    setError("");
     try {
       if (slug === "json-formatter") {
         const result = validateJson(input); setValid(result.valid);
         setOutput(result.valid ? formatJson(input) : result.error ?? "Invalid JSON");
       } else { setOutput(mode === "encode" ? encodeBase64(input) : decodeBase64(input)); }
-    } catch (e) { setOutput(e instanceof Error ? e.message : "Invalid input"); }
+    } catch (e) { setOutput(""); setValid(false); setError(e instanceof Error ? e.message : "Invalid input"); }
   };
   return <Box>
     {slug === "base64" && <div className="mb-4 flex gap-2" role="group" aria-label="Base64 mode">
-      <button type="button" aria-pressed={mode === "encode"} className="rounded-xl border px-4 py-2" onClick={() => setMode("encode")}>Encode</button>
-      <button type="button" aria-pressed={mode === "decode"} className="rounded-xl border px-4 py-2" onClick={() => setMode("decode")}>Decode</button>
+      <button type="button" aria-pressed={mode === "encode"} className="rounded-xl border px-4 py-2" onClick={() => { setMode("encode"); setOutput(""); setError(""); setValid(undefined); }}>Encode</button>
+      <button type="button" aria-pressed={mode === "decode"} className="rounded-xl border px-4 py-2" onClick={() => { setMode("decode"); setOutput(""); setError(""); setValid(undefined); }}>Decode</button>
     </div>}
     <label className="grid gap-2 font-semibold">{slug === "json-formatter" ? "JSON input" : mode === "encode" ? "Text input" : "Base64 input"}
-      <textarea aria-label="Tool input" className={field} rows={9} value={input} onChange={e => setInput(e.target.value)} placeholder={slug === "json-formatter" ? '{"hello":"world"}' : "Enter text or Base64..."} />
+      <textarea aria-label="Tool input" className={field} rows={9} value={input} onChange={e => { setInput(e.target.value); setOutput(""); setError(""); setValid(undefined); }} placeholder={slug === "json-formatter" ? '{"hello":"world"}' : "Enter text or Base64..."} />
     </label>
-    <div className="mt-4 flex gap-3"><Button onClick={run}>{slug === "json-formatter" ? "Format & Validate" : mode === "encode" ? "Encode" : "Decode"}</Button><button type="button" className="rounded-xl border px-5 py-3" onClick={() => { setInput(""); setOutput(""); setValid(undefined); }}>Clear</button></div>
-    {valid !== undefined && <p className="mt-4 font-medium" role="status">{valid ? "✓ Valid JSON" : "✕ Invalid JSON"}</p>}
+    <div className="mt-4 flex gap-3"><Button onClick={run}>{slug === "json-formatter" ? "Format & Validate" : mode === "encode" ? "Encode" : "Decode"}</Button><button type="button" className="rounded-xl border px-5 py-3" onClick={() => { setInput(""); setOutput(""); setError(""); setValid(undefined); }}>Clear</button></div>
+    {error && <p className="mt-4 font-medium" role="alert">{error}</p>}
+    {valid !== undefined && !error && <p className="mt-4 font-medium" role="status">{valid ? "✓ Valid JSON" : "✕ Invalid JSON"}</p>}
     {output && <pre className="mt-4 overflow-auto rounded-xl bg-[var(--background)] p-4 text-sm" aria-label="Tool output">{output}</pre>}
   </Box>;
 }

@@ -10,7 +10,12 @@ export function encodeBase64(input: string) {
 }
 
 export function decodeBase64(input: string) {
-  const binary = atob(input.trim());
+  const normalized = input.trim();
+  if (!normalized) throw new Error("Base64 input cannot be empty");
+  if (!/^[A-Za-z0-9+/]*={0,2}$/.test(normalized) || normalized.length % 4 !== 0) {
+    throw new Error("Invalid Base64 input");
+  }
+  const binary = atob(normalized);
   const bytes = Uint8Array.from(binary, (char) => char.charCodeAt(0));
-  return new TextDecoder().decode(bytes);
+  return new TextDecoder("utf-8", { fatal: true }).decode(bytes);
 }

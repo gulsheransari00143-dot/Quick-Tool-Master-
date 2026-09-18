@@ -1,7 +1,20 @@
+function parseDateOnly(value: string, label: string) {
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
+  if (!match) throw new Error(`${label} must be a valid date`);
+  const year = Number(match[1]);
+  const month = Number(match[2]);
+  const day = Number(match[3]);
+  const date = new Date(Date.UTC(year, month - 1, day));
+  if (date.getUTCFullYear() !== year || date.getUTCMonth() !== month - 1 || date.getUTCDate() !== day) {
+    throw new Error(`${label} must be a valid date`);
+  }
+  return date;
+}
+
 export function calculateAge(birth: string, target: string) {
-  const b = new Date(`${birth}T00:00:00Z`);
-  const t = new Date(`${target}T00:00:00Z`);
-  if (Number.isNaN(b.getTime()) || Number.isNaN(t.getTime()) || t < b) throw new Error("Invalid dates");
+  const b = parseDateOnly(birth, "Birth date");
+  const t = parseDateOnly(target, "Target date");
+  if (t < b) throw new Error("Target date cannot be before birth date");
   let age = t.getUTCFullYear() - b.getUTCFullYear();
   const beforeBirthday = t.getUTCMonth() < b.getUTCMonth() ||
     (t.getUTCMonth() === b.getUTCMonth() && t.getUTCDate() < b.getUTCDate());
