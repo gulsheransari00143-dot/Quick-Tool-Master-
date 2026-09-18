@@ -23,6 +23,7 @@ const tools: ToolDefinition[] = [
 ["Science Q&A","science-qa","science","Ask science questions and get clear answers across physics, chemistry, biology, space, and general science.","🔬"],
 ["Excel & CSV Viewer","excel-csv-viewer","excel-tools","Open Excel and CSV files in your browser and inspect spreadsheet data.","📊"],
 ["Print & Print Preview","print-preview","printer-tools","Create a print-ready document with A4, A5, Letter, portrait, and landscape options.","🖨️"],
+["AI Image Enhancer","ai-image-enhancer","ai-tools","Advanced image enhancement with upscale, deblur, noise reduction, HDR, and detail recovery controls.","✨"],
 ].map(([name,slug,category,description,icon])=>({name,slug,category:category as ToolCategory,description,icon,seoTitle:`${name} - Free Online Tool | QuickToolMaster`,seoDescription:`${description} Free, fast, mobile-friendly, and designed for easy use worldwide.`,processingMode:"browser" as const,relatedTools:[]}));
 
 export const toolRegistry = tools;
