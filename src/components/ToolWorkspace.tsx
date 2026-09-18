@@ -11,7 +11,8 @@ const formats: { label: string; value: ImageFormat }[] = [
 ];
 function saveBlob(blob: Blob, name: string) {
  const url = URL.createObjectURL(blob); const link = document.createElement("a");
- link.href = url; link.download = name; link.click(); setTimeout(() => URL.revokeObjectURL(url), 1000);
+ link.href = url; link.download = name; link.rel = "noopener"; link.style.display = "none";
+ document.body.appendChild(link); link.click(); link.remove(); setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 function FilePicker({ accept, onChange }: { accept: string; onChange: (file: File) => void }) {
  return <label className="drop-zone"><input type="file" accept={accept} onChange={(e) => e.target.files?.[0] && onChange(e.target.files[0])} /><strong>Choose a file</strong><span>or tap here to browse</span></label>;
