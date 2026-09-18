@@ -8,4 +8,5 @@ export const categories = [
   { slug: "games", name: "Games", description: "Quick puzzles, quizzes, and mini games for a short break." },
   { slug: "science", name: "Science", description: "Science questions and explanations across physics, chemistry, biology, space, and more." },
   { slug: "excel-tools", name: "Excel Tools", description: "View, clean, convert, and work with spreadsheet data." },
+  { slug: "printer-tools", name: "Printer Tools", description: "Create print-ready pages and send them to your printer or PDF." },
 ] as const;

@@ -7,7 +7,8 @@ export type ToolCategory =
   | "templates"
   | "games"
   | "science"
-  | "excel-tools";
+  | "excel-tools"
+  | "printer-tools";
 
 export type ProcessingMode = "browser" | "server";
 

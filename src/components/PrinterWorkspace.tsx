@@ -1,0 +1,7 @@
+"use client";
+import { useState } from "react";
+export default function PrinterWorkspace(){
+ const [text,setText]=useState(""),[size,setSize]=useState("A4"),[orientation,setOrientation]=useState("portrait");
+ const print=()=>{const w=window.open("","_blank","width=900,height=700"); if(!w)return; w.document.write(`<!doctype html><html><head><title>QuickToolMaster Print</title><style>@page{size:${size} ${orientation};margin:18mm}body{font-family:Arial,sans-serif;white-space:pre-wrap;font-size:14pt;line-height:1.5} @media print{body{color:#000}}</style></head><body>${text.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\n/g,"<br>")}</body></html>`); w.document.close(); w.focus(); setTimeout(()=>w.print(),250);};
+ return <div className="workspace"><label>Text to print<textarea rows={12} value={text} onChange={e=>setText(e.target.value)} placeholder="Type or paste your document here…" /></label><div className="control-grid"><label>Paper size<select value={size} onChange={e=>setSize(e.target.value)}><option>A4</option><option>A5</option><option>Letter</option></select></label><label>Orientation<select value={orientation} onChange={e=>setOrientation(e.target.value)}><option value="portrait">Portrait</option><option value="landscape">Landscape</option></select></label></div><button className="primary-button" disabled={!text.trim()} onClick={print}>🖨️ Print / Save as PDF</button><p className="text-sm">Your browser will open the print dialog, where you can choose an available printer or “Save as PDF”.</p></div>;
+}

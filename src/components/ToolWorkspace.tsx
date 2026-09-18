@@ -10,6 +10,7 @@ import TemplateWorkspace from "@/components/TemplateWorkspace";
 import GameWorkspace from "@/components/GameWorkspace";
 import ScienceWorkspace from "@/components/ScienceWorkspace";
 import ExcelWorkspace from "@/components/ExcelWorkspace";
+import PrinterWorkspace from "@/components/PrinterWorkspace";
 type Props = { slug: string };
 const formats: { label: string; value: ImageFormat }[] = [
  { label: "JPG", value: "image/jpeg" }, { label: "PNG", value: "image/png" }, { label: "WebP", value: "image/webp" },
@@ -60,6 +61,7 @@ export default function ToolWorkspace({ slug }: Props) {
  if (slug === "qr-code-generator") return <QrTool />;
  if (slug === "science-qa") return <ScienceWorkspace />;
  if (slug === "excel-csv-viewer") return <ExcelWorkspace />;
+ if (slug === "print-preview") return <PrinterWorkspace />;
  if (slug.startsWith("ai-")) return <AIWorkspace slug={slug} />;
  if (["resume-template","invoice-template","meeting-notes-template"].includes(slug)) return <TemplateWorkspace slug={slug} />;
  if (["tic-tac-toe","number-guess","reaction-timer"].includes(slug)) return <GameWorkspace slug={slug} />;
