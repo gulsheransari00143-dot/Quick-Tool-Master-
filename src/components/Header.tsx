@@ -16,7 +16,7 @@ export default function Header() {
           <Link href="/tools">Tools</Link><Link href="/calculators">Calculators</Link>
           <Link href="/developer">Developer</Link><Link href="/generators">Generators</Link>
         </nav>
-        <div className="header-actions"><Link className="header-cta" href="/tools">Explore tools</Link><ThemeToggle />
+        <div className="header-actions"><Link className="header-cta" href="/tools">Explore</Link><ThemeToggle />
           <button className="menu-button" type="button" aria-expanded={open} aria-controls="mobile-nav" onClick={() => setOpen(!open)}>Menu</button>
         </div>
       </div>
