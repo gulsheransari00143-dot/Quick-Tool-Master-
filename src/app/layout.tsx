@@ -5,7 +5,7 @@ import Footer from "@/components/Footer";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://quick-tool-master.gulsheransari00143.workers.dev"),
+  metadataBase: new URL("https://quicktoolmaster.com"),
   alternates: { canonical: "/" },
   title: { default: "Quick Tool Master — Free Online Tools", template: "%s | Quick Tool Master" },
   description: "Fast, simple, privacy-friendly online tools, calculators and utilities.",
@@ -18,7 +18,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     "@context": "https://schema.org",
     "@type": "WebSite",
     name: "Quick Tool Master",
-    url: "https://quick-tool-master.gulsheransari00143.workers.dev/",
+    url: "https://quicktoolmaster.com/",
     description: "Fast, simple, privacy-friendly online tools, calculators and utilities.",
   };
   return (
