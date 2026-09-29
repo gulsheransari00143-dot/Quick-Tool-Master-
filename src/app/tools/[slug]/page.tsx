@@ -34,6 +34,27 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
   const categoryGroups = groupTools(tool.category, getToolsByCategory(tool.category));
   const toolGroup = categoryGroups.find((group) => group.tools.some((candidate) => candidate.slug === tool.slug));
   const relatedTools = getToolsByCategory(tool.category).filter((candidate) => candidate.slug !== tool.slug).slice(0, 6);
+  const priorityLinks: Record<string, { slug: string; label: string }[]> = {
+    "prepayment": [
+      { slug: "emi-calculator", label: "EMI Calculator" },
+      { slug: "personal-loan-emi", label: "Personal Loan EMI Calculator" },
+      { slug: "home-loan-emi", label: "Home Loan EMI Calculator" },
+      { slug: "amortization", label: "Loan Amortization Schedule" },
+    ],
+    "random-token": [
+      { slug: "uuid-generator", label: "UUID Generator" },
+      { slug: "password-generator", label: "Password Generator" },
+      { slug: "hash-generator", label: "Hash Generator" },
+      { slug: "password-strength", label: "Password Strength Checker" },
+    ],
+    "average-calculator": [
+      { slug: "percentage-calculator", label: "Percentage Calculator" },
+      { slug: "lcm-hcf", label: "LCM & HCF Calculator" },
+      { slug: "prime-checker", label: "Prime Number Checker" },
+      { slug: "factorization", label: "Number Factorization" },
+    ],
+  };
+
   const seoGuide = {
     "prepayment": {
       heading: "Loan prepayment calculator: what it helps you compare",
@@ -105,6 +126,19 @@ export default async function ToolPage({ params }: { params: Promise<{ slug: str
           </div>
         </div>
         <ToolWorkspace slug={tool.slug} />
+
+        {priorityLinks[tool.slug] && (
+          <nav className="mt-10 border-t border-[var(--border)] pt-8" aria-labelledby="priority-links">
+            <h2 id="priority-links" className="text-2xl font-semibold">Related searches and tools</h2>
+            <div className="mt-4 grid gap-3 sm:grid-cols-2">
+              {priorityLinks[tool.slug].map((item) => (
+                <Link key={item.slug} href={`/tools/${item.slug}`} className="rounded-2xl border border-[var(--border)] p-4 font-semibold transition hover:-translate-y-0.5">
+                  {item.label} →
+                </Link>
+              ))}
+            </div>
+          </nav>
+        )}
 
         {guide && (
           <section className="mt-10 border-t border-[var(--border)] pt-8" aria-labelledby="search-intent-guide">
